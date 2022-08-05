@@ -1,0 +1,802 @@
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 13
+Server version: 8.0.29 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| batch2pmdb         |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.04 sec)
+
+mysql> create database learn;
+Query OK, 1 row affected (0.36 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| batch2pmdb         |
+| information_schema |
+| learn              |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+6 rows in set (0.00 sec)
+
+mysql> use learn;
+Database changed
+mysql> show tables;
+Empty set (0.01 sec)
+
+mysql> create table user(id int primary key, name varchar(100) not null, city varchar(100));
+Query OK, 0 rows affected (2.37 sec)
+
+mysql> show tables;
++-----------------+
+| Tables_in_learn |
++-----------------+
+| user            |
++-----------------+
+1 row in set (0.01 sec)
+
+mysql> desc user;
++-------+--------------+------+-----+---------+-------+
+| Field | Type         | Null | Key | Default | Extra |
++-------+--------------+------+-----+---------+-------+
+| id    | int          | NO   | PRI | NULL    |       |
+| name  | varchar(100) | NO   |     | NULL    |       |
+| city  | varchar(100) | YES  |     | NULL    |       |
++-------+--------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> drop table user;
+Query OK, 0 rows affected (0.43 sec)
+
+mysql> show tables;
+Empty set (0.01 sec)
+
+mysql> create table user(id int primary key, name varchar(100) not null, city varchar(100));
+Query OK, 0 rows affected (0.39 sec)
+
+mysql> show tables;
++-----------------+
+| Tables_in_learn |
++-----------------+
+| user            |
++-----------------+
+1 row in set (0.00 sec)
+
+mysql> alter table user to student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'to student' at line 1
+mysql> alter table rename user to student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'rename user to student' at line 1
+mysql> alter table user rename to student;
+Query OK, 0 rows affected (0.35 sec)
+
+mysql> show tables;
++-----------------+
+| Tables_in_learn |
++-----------------+
+| student         |
++-----------------+
+1 row in set (0.00 sec)
+
+mysql> desc student;
++-------+--------------+------+-----+---------+-------+
+| Field | Type         | Null | Key | Default | Extra |
++-------+--------------+------+-----+---------+-------+
+| id    | int          | NO   | PRI | NULL    |       |
+| name  | varchar(100) | NO   |     | NULL    |       |
+| city  | varchar(100) | YES  |     | NULL    |       |
++-------+--------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> insert into student(id,name,city) values(12,'nisha','delhi');
+Query OK, 1 row affected (0.09 sec)
+
+mysql> insert into student values(11,'rani','noida');
+Query OK, 1 row affected (0.07 sec)
+
+mysql> show tables;
++-----------------+
+| Tables_in_learn |
++-----------------+
+| student         |
++-----------------+
+1 row in set (0.01 sec)
+
+mysql> select* from student;
++----+-------+-------+
+| id | name  | city  |
++----+-------+-------+
+| 11 | rani  | noida |
+| 12 | nisha | delhi |
++----+-------+-------+
+2 rows in set (0.00 sec)
+
+mysql> insert into student values(12,'anjali','hisar');
+ERROR 1062 (23000): Duplicate entry '12' for key 'student.PRIMARY'
+mysql> insert into student values(7,'anjali','hisar');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> select* from student;
++----+--------+-------+
+| id | name   | city  |
++----+--------+-------+
+|  7 | anjali | hisar |
+| 11 | rani   | noida |
+| 12 | nisha  | delhi |
++----+--------+-------+
+3 rows in set (0.00 sec)
+
+mysql> alter table student add country varchar(100);
+Query OK, 0 rows affected (0.29 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select* from student;
++----+--------+-------+---------+
+| id | name   | city  | country |
++----+--------+-------+---------+
+|  7 | anjali | hisar | NULL    |
+| 11 | rani   | noida | NULL    |
+| 12 | nisha  | delhi | NULL    |
++----+--------+-------+---------+
+3 rows in set (0.00 sec)
+
+mysql> update table student set country='india' where name='anjali';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'table student set country='india' where name='anjali'' at line 1
+mysql> update student set country='india' where name='anjali';
+Query OK, 1 row affected (0.08 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select* from student;
++----+--------+-------+---------+
+| id | name   | city  | country |
++----+--------+-------+---------+
+|  7 | anjali | hisar | india   |
+| 11 | rani   | noida | NULL    |
+| 12 | nisha  | delhi | NULL    |
++----+--------+-------+---------+
+3 rows in set (0.00 sec)
+
+mysql> update student set country='india' where name='nisha';
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select
+    -> select* from student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select* from student' at line 2
+mysql> select
+    -> *
+    -> secte
+    -> select
+    ->
+    -> select* from student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'secte
+select
+
+select* from student' at line 3
+mysql> select* from student;
++----+--------+-------+---------+
+| id | name   | city  | country |
++----+--------+-------+---------+
+|  7 | anjali | hisar | india   |
+| 11 | rani   | noida | NULL    |
+| 12 | nisha  | delhi | india   |
++----+--------+-------+---------+
+3 rows in set (0.00 sec)
+
+mysql> update student set country='ind' where name='rani';
+Query OK, 1 row affected (0.10 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select* from student;
++----+--------+-------+---------+
+| id | name   | city  | country |
++----+--------+-------+---------+
+|  7 | anjali | hisar | india   |
+| 11 | rani   | noida | ind     |
+| 12 | nisha  | delhi | india   |
++----+--------+-------+---------+
+3 rows in set (0.00 sec)
+
+mysql> update student set city='hisar' country='bharat' where name='rani';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'country='bharat' where name='rani'' at line 1
+mysql> update student set city='hisar', country='bharat' where id=11;
+Query OK, 1 row affected (0.08 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select* from student;
++----+--------+-------+---------+
+| id | name   | city  | country |
++----+--------+-------+---------+
+|  7 | anjali | hisar | india   |
+| 11 | rani   | hisar | bharat  |
+| 12 | nisha  | delhi | india   |
++----+--------+-------+---------+
+3 rows in set (0.00 sec)
+
+mysql> delete from student where id='11';
+Query OK, 1 row affected (0.08 sec)
+
+mysql> select* from student;
++----+--------+-------+---------+
+| id | name   | city  | country |
++----+--------+-------+---------+
+|  7 | anjali | hisar | india   |
+| 12 | nisha  | delhi | india   |
++----+--------+-------+---------+
+2 rows in set (0.00 sec)
+
+mysql> select* from student where city='lucknow';
+Empty set (0.00 sec)
+
+mysql> select* from student where city='hisar';
++----+--------+-------+---------+
+| id | name   | city  | country |
++----+--------+-------+---------+
+|  7 | anjali | hisar | india   |
++----+--------+-------+---------+
+1 row in set (0.00 sec)
+
+mysql> select* from student where city='delhi';
++----+-------+-------+---------+
+| id | name  | city  | country |
++----+-------+-------+---------+
+| 12 | nisha | delhi | india   |
++----+-------+-------+---------+
+1 row in set (0.00 sec)
+
+mysql> select name as  "USERNAME" , city as "CITYNAME" from student;
++----------+----------+
+| USERNAME | CITYNAME |
++----------+----------+
+| anjali   | hisar    |
+| nisha    | delhi    |
++----------+----------+
+2 rows in set (0.00 sec)
+
+mysql> insert into student values(44.'anjali','hisar');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''anjali','hisar')' at line 1
+mysql> insert into student values(44,'anjali','hisar');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into student values(44,'anjali','hisar');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> select* from student;
++----+--------+-------+---------+
+| id | name   | city  | country |
++----+--------+-------+---------+
+|  7 | anjali | hisar | india   |
+| 12 | nisha  | delhi | india   |
++----+--------+-------+---------+
+2 rows in set (0.00 sec)
+
+mysql> insert into student values(14,'rani','hisar');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into student values(14,'rani','hisar');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into student values(14,'rani','hisar','india');
+Query OK, 1 row affected (0.09 sec)
+
+mysql> select* from student;
++----+--------+-------+---------+
+| id | name   | city  | country |
++----+--------+-------+---------+
+|  7 | anjali | hisar | india   |
+| 12 | nisha  | delhi | india   |
+| 14 | rani   | hisar | india   |
++----+--------+-------+---------+
+3 rows in set (0.00 sec)
+
+mysql> select distinct(country) from student;
++---------+
+| country |
++---------+
+| india   |
++---------+
+1 row in set (0.00 sec)
+
+mysql> insert into student values(18,'aani','hisar','uk');
+Query OK, 1 row affected (0.07 sec)
+
+mysql> select* from student;
++----+--------+-------+---------+
+| id | name   | city  | country |
++----+--------+-------+---------+
+|  7 | anjali | hisar | india   |
+| 12 | nisha  | delhi | india   |
+| 14 | rani   | hisar | india   |
+| 18 | aani   | hisar | uk      |
++----+--------+-------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select distinct(country) from student;
++---------+
+| country |
++---------+
+| india   |
+| uk      |
++---------+
+2 rows in set (0.00 sec)
+
+mysql> select* from student where country='india' or city='hisar';
++----+--------+-------+---------+
+| id | name   | city  | country |
++----+--------+-------+---------+
+|  7 | anjali | hisar | india   |
+| 12 | nisha  | delhi | india   |
+| 14 | rani   | hisar | india   |
+| 18 | aani   | hisar | uk      |
++----+--------+-------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select* from student where country='india'  and city='hisar';
++----+--------+-------+---------+
+| id | name   | city  | country |
++----+--------+-------+---------+
+|  7 | anjali | hisar | india   |
+| 14 | rani   | hisar | india   |
++----+--------+-------+---------+
+2 rows in set (0.00 sec)
+
+mysql> select* from student;
++----+--------+-------+---------+
+| id | name   | city  | country |
++----+--------+-------+---------+
+|  7 | anjali | hisar | india   |
+| 12 | nisha  | delhi | india   |
+| 14 | rani   | hisar | india   |
+| 18 | aani   | hisar | uk      |
++----+--------+-------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select* from student where id>=24 and id<=2334;
+Empty set (0.00 sec)
+
+mysql> select* from student where id>=7 and id<=14;
++----+--------+-------+---------+
+| id | name   | city  | country |
++----+--------+-------+---------+
+|  7 | anjali | hisar | india   |
+| 12 | nisha  | delhi | india   |
+| 14 | rani   | hisar | india   |
++----+--------+-------+---------+
+3 rows in set (0.00 sec)
+
+mysql> select* from student where id between 7 and 14;
++----+--------+-------+---------+
+| id | name   | city  | country |
++----+--------+-------+---------+
+|  7 | anjali | hisar | india   |
+| 12 | nisha  | delhi | india   |
+| 14 | rani   | hisar | india   |
++----+--------+-------+---------+
+3 rows in set (0.00 sec)
+
+mysql> select* from student where id>7 and id<14;
++----+-------+-------+---------+
+| id | name  | city  | country |
++----+-------+-------+---------+
+| 12 | nisha | delhi | india   |
++----+-------+-------+---------+
+1 row in set (0.00 sec)
+
+mysql> select* from student where id in(7,14);
++----+--------+-------+---------+
+| id | name   | city  | country |
++----+--------+-------+---------+
+|  7 | anjali | hisar | india   |
+| 14 | rani   | hisar | india   |
++----+--------+-------+---------+
+2 rows in set (0.00 sec)
+
+mysql> select* from student limit 2;
++----+--------+-------+---------+
+| id | name   | city  | country |
++----+--------+-------+---------+
+|  7 | anjali | hisar | india   |
+| 12 | nisha  | delhi | india   |
++----+--------+-------+---------+
+2 rows in set (0.00 sec)
+
+mysql> select* from student limit 2 offset 1;
++----+-------+-------+---------+
+| id | name  | city  | country |
++----+-------+-------+---------+
+| 12 | nisha | delhi | india   |
+| 14 | rani  | hisar | india   |
++----+-------+-------+---------+
+2 rows in set (0.00 sec)
+
+mysql> select* from student order by id;
++----+--------+-------+---------+
+| id | name   | city  | country |
++----+--------+-------+---------+
+|  7 | anjali | hisar | india   |
+| 12 | nisha  | delhi | india   |
+| 14 | rani   | hisar | india   |
+| 18 | aani   | hisar | uk      |
++----+--------+-------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select* from student order by id desc;
++----+--------+-------+---------+
+| id | name   | city  | country |
++----+--------+-------+---------+
+| 18 | aani   | hisar | uk      |
+| 14 | rani   | hisar | india   |
+| 12 | nisha  | delhi | india   |
+|  7 | anjali | hisar | india   |
++----+--------+-------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select* from student order by id asen;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'asen' at line 1
+mysql> select* from student order by id acen;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'acen' at line 1
+mysql> select* from student order by id ace;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ace' at line 1
+mysql> select* from student order by name desc;
++----+--------+-------+---------+
+| id | name   | city  | country |
++----+--------+-------+---------+
+| 14 | rani   | hisar | india   |
+| 12 | nisha  | delhi | india   |
+|  7 | anjali | hisar | india   |
+| 18 | aani   | hisar | uk      |
++----+--------+-------+---------+
+4 rows in set (0.01 sec)
+
+mysql> select* from student order by id asc;
++----+--------+-------+---------+
+| id | name   | city  | country |
++----+--------+-------+---------+
+|  7 | anjali | hisar | india   |
+| 12 | nisha  | delhi | india   |
+| 14 | rani   | hisar | india   |
+| 18 | aani   | hisar | uk      |
++----+--------+-------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select* from student order by id desc limit 2;
++----+------+-------+---------+
+| id | name | city  | country |
++----+------+-------+---------+
+| 18 | aani | hisar | uk      |
+| 14 | rani | hisar | india   |
++----+------+-------+---------+
+2 rows in set (0.00 sec)
+
+mysql> select* from student where name like 'a%';
++----+--------+-------+---------+
+| id | name   | city  | country |
++----+--------+-------+---------+
+|  7 | anjali | hisar | india   |
+| 18 | aani   | hisar | uk      |
++----+--------+-------+---------+
+2 rows in set (0.00 sec)
+
+mysql> select* from student where country like"_n%":
+    -> select* from student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ':
+select* from student' at line 1
+mysql> select* from student where country like"_n%";
++----+--------+-------+---------+
+| id | name   | city  | country |
++----+--------+-------+---------+
+|  7 | anjali | hisar | india   |
+| 12 | nisha  | delhi | india   |
+| 14 | rani   | hisar | india   |
++----+--------+-------+---------+
+3 rows in set (0.00 sec)
+
+mysql> select* from student where country like"_n%";
++----+--------+-------+---------+
+| id | name   | city  | country |
++----+--------+-------+---------+
+|  7 | anjali | hisar | india   |
+| 12 | nisha  | delhi | india   |
+| 14 | rani   | hisar | india   |
++----+--------+-------+---------+
+3 rows in set (0.00 sec)
+
+mysql> select* from student where country like"%i_)";
+Empty set (0.00 sec)
+
+mysql> select* from student where country like"%i_";
++----+--------+-------+---------+
+| id | name   | city  | country |
++----+--------+-------+---------+
+|  7 | anjali | hisar | india   |
+| 12 | nisha  | delhi | india   |
+| 14 | rani   | hisar | india   |
++----+--------+-------+---------+
+3 rows in set (0.00 sec)
+
+mysql> select SUM(id) from student;
++---------+
+| SUM(id) |
++---------+
+|      51 |
++---------+
+1 row in set (0.03 sec)
+
+mysql> select AVG(id) from student;
++---------+
+| AVG(id) |
++---------+
+| 12.7500 |
++---------+
+1 row in set (0.03 sec)
+
+mysql> select MIN(id) from student;
++---------+
+| MIN(id) |
++---------+
+|       7 |
++---------+
+1 row in set (0.00 sec)
+
+mysql> select MAX(id) from student;
++---------+
+| MAX(id) |
++---------+
+|      18 |
++---------+
+1 row in set (0.00 sec)
+
+mysql> select COUNT(id) from student;
++-----------+
+| COUNT(id) |
++-----------+
+|         4 |
++-----------+
+1 row in set (0.05 sec)
+
+mysql> select name from student where id(select MIN(id) from student);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select MIN(id) from student)' at line 1
+mysql> select name from student where id(select MIN(id) from student);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select MIN(id) from student)' at line 1
+mysql> select MIN(id) from student;
++---------+
+| MIN(id) |
++---------+
+|       7 |
++---------+
+1 row in set (0.00 sec)
+
+mysql> select name from student where id(select MIN(id) from student);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select MIN(id) from student)' at line 1
+mysql> select name from student where id=(select MIN(id) from student);
++--------+
+| name   |
++--------+
+| anjali |
++--------+
+1 row in set (0.00 sec)
+
+mysql> select name from student where id=(select MAX(id) from student);
++------+
+| name |
++------+
+| aani |
++------+
+1 row in set (0.00 sec)
+
+mysql> create table laptops(lid int primary key,lmodel varchar(200),studentid int,foreign key(studentid) references student(id));
+Query OK, 0 rows affected (1.06 sec)
+
+mysql> desc student;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| id      | int          | NO   | PRI | NULL    |       |
+| name    | varchar(100) | NO   |     | NULL    |       |
+| city    | varchar(100) | YES  |     | NULL    |       |
+| country | varchar(100) | YES  |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> show tables;
++-----------------+
+| Tables_in_learn |
++-----------------+
+| laptops         |
+| student         |
++-----------------+
+2 rows in set (0.01 sec)
+
+mysql> desc laptops;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| lid       | int          | NO   | PRI | NULL    |       |
+| lmodel    | varchar(200) | YES  |     | NULL    |       |
+| studentid | int          | YES  | MUL | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> insert into laptops values(44,'Dell','7');
+Query OK, 1 row affected (0.09 sec)
+
+mysql> insert into laptops values(33,'HP','14');
+Query OK, 1 row affected (0.12 sec)
+
+mysql> select* from laptops;
++-----+--------+-----------+
+| lid | lmodel | studentid |
++-----+--------+-----------+
+|  33 | HP     |        14 |
+|  44 | Dell   |         7 |
++-----+--------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select student.name,student.city,laptops.model from student,laptops where student.id=laptops.studentid;
+ERROR 1054 (42S22): Unknown column 'laptops.model' in 'field list'
+mysql> select student.name,student.city,laptops.lmodel from student,laptops where student.id=laptops.studentid;
++--------+-------+--------+
+| name   | city  | lmodel |
++--------+-------+--------+
+| rani   | hisar | HP     |
+| anjali | hisar | Dell   |
++--------+-------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select student.name,student.city,laptops.model from student, laptops where student.id=laptops.studentid and student.name='rani';
+ERROR 1054 (42S22): Unknown column 'laptops.model' in 'field list'
+mysql> select student.name,student.city,laptops.lmodel from student, laptops where student.id=laptops.studentid and student.name='rani';
++------+-------+--------+
+| name | city  | lmodel |
++------+-------+--------+
+| rani | hisar | HP     |
++------+-------+--------+
+1 row in set (0.00 sec)
+
+mysql> select student.name,student.city,laptops.lmodel from student, laptops where student.id=laptops.studentid and student.name='rani';
++------+-------+--------+
+| name | city  | lmodel |
++------+-------+--------+
+| rani | hisar | HP     |
++------+-------+--------+
+1 row in set (0.00 sec)
+
+mysql> select student.name,laptops.model from student inner join laptops on student.id=laptops.studentid;
+ERROR 1054 (42S22): Unknown column 'laptops.model' in 'field list'
+mysql> select student.name,laptops.lmodel from student inner join laptops on student.id=laptops.studentid;
++--------+--------+
+| name   | lmodel |
++--------+--------+
+| rani   | HP     |
+| anjali | Dell   |
++--------+--------+
+2 rows in set (0.00 sec)
+
+mysql> ^C
+mysql>
+
+-----------------------------------------------------------------------------------1st assignment-------------------------------------------------------------------------------------------------
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 15
+Server version: 8.0.29 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| batch2pmdb         |
+| information_schema |
+| learn              |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+6 rows in set (0.26 sec)
+
+mysql> use learn;
+Database changed
+mysql> create table persons;
+ERROR 4028 (HY000): A table must have at least one visible column.
+mysql> create table persons(id int primary key, firstname varchar(100), lastname varchar(100));
+Query OK, 0 rows affected (2.19 sec)
+
+mysql> insert into persons(id,firstname,lastname) values(1,'nisha','poonia');
+Query OK, 1 row affected (0.34 sec)
+
+mysql> insert into persons values(2,'rani','ghosh');
+Query OK, 1 row affected (0.21 sec)
+
+mysql> select* from persons;
++----+-----------+----------+
+| id | firstname | lastname |
++----+-----------+----------+
+|  1 | nisha     | poonia   |
+|  2 | rani      | ghosh    |
++----+-----------+----------+
+2 rows in set (0.00 sec)
+
+mysql> select firstname from persons;
++-----------+
+| firstname |
++-----------+
+| nisha     |
+| rani      |
++-----------+
+2 rows in set (0.00 sec)
+
+mysql> insert into persons values(3,'rani','ghosh');
+Query OK, 1 row affected (0.18 sec)
+
+mysql> select firstname from persons where firstname='rani';
++-----------+
+| firstname |
++-----------+
+| rani      |
+| rani      |
++-----------+
+2 rows in set (0.00 sec)
+
+mysql> select* from persons where firstname likea%;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'likea%' at line 1
+mysql> select* from persons where firstname like a%;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '%' at line 1
+mysql> select* from persons where firstname like 'a%';
+Empty set (0.03 sec)
+
+mysql> select* from persons where firstname like 'r%';
++----+-----------+----------+
+| id | firstname | lastname |
++----+-----------+----------+
+|  2 | rani      | ghosh    |
+|  3 | rani      | ghosh    |
++----+-----------+----------+
+2 rows in set (0.00 sec)
+
+mysql> select distinct(firstname) from persons;
++-----------+
+| firstname |
++-----------+
+| nisha     |
+| rani      |
++-----------+
+2 rows in set (0.04 sec)
+
+mysql> insert into persons values(4,'anjali','kumari');
+Query OK, 1 row affected (0.10 sec)
+
+mysql> select* from persons;
++----+-----------+----------+
+| id | firstname | lastname |
++----+-----------+----------+
+|  1 | nisha     | poonia   |
+|  2 | rani      | ghosh    |
+|  3 | rani      | ghosh    |
+|  4 | anjali    | kumari   |
++----+-----------+----------+
+4 rows in set (0.00 sec)
+
+mysql>
